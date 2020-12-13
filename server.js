@@ -35,12 +35,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(require('./controllers/'));
+app.use(require('./controllers'));
 app.use(session(sess));
 
 
+sequelize.sync({ force: false }).then(() => {
+    app.listen(PORT, function() {
+      console.log('App listening on PORT ' + PORT);
+    });
+  });
 
-app.listen(PORT, () => {
-    console.log(`App listeningn on port ${PORT}!`);
-    sequelize.sync({ force: false });
-});
+// app.listen(PORT, () => {
+//     console.log(`App listeningn on port ${PORT}!`);
+//     sequelize.sync({ force: false });
+// });
